@@ -3,5 +3,6 @@ from url_shortner import views
 
 urlpatterns = [
     path('short_it',views.create_url),
-    path('<uuid:uuid>',views.redirect_url)
+    path('<str:uuid>',views.redirect_url),
+    path('',views.home)
 ]

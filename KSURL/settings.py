@@ -13,6 +13,7 @@ from dotenv import load_dotenv
 import os
 from pathlib import Path
 
+
 os.makedirs("logs", exist_ok=True)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -32,8 +33,28 @@ DEBUG = os.getenv('DEBUG') == 'True'
 HOSTDOMAIN = os.getenv('HOSTDOMAIN')
 
 
+# connect to redis
+# redis settings
+REDIS_HOST="redis"
+REDIS_PORT=6379
+
+
+from django.core.cache.backends.redis import RedisCache
+# Configure the Redis cache backend
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': f'redis://{REDIS_HOST}:{REDIS_PORT}/1',  # Redis server address and database number
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        },
+    },
+}
+
+
 
 ALLOWED_HOSTS = ["*"]
+
 
 
 # Application definition
@@ -50,14 +71,19 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+
+CSRF_TRUSTED_ORIGINS = ['http://*', 'https://*']
+CSRF_COOKIE_SAMESITE = None
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'KSURL.urls'
 
@@ -164,3 +190,6 @@ LOGGING = {
         },
     },
 }
+
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')

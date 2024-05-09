@@ -8,7 +8,10 @@ class UrlService:
 
     def read(self,uuid):
         doc = Urls.objects.get(uuid=uuid)
-        return doc.url
+        url = doc.url
+        if not url.startswith(('https://')):
+            url = 'https://' + url
+        return url
 
     def __mapShortUrl(self,uuid):
         schema = "https"
