@@ -20,6 +20,6 @@ from django.contrib import admin
 from django.urls import path,include
 
 urlpatterns = [
-    path('karkhana_panel/', admin.site.urls),
-    path('',include('url_shortner.urls'))
+    path('admin/', admin.site.urls),
+    path('shortner',include('url_shortner.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

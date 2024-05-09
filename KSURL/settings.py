@@ -54,7 +54,8 @@ CACHES = {
 
 
 ALLOWED_HOSTS = ["*"]
-
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000','http://localhost:8000'] 
+CORS_ALLOW_ALL_ORIGINS = True
 
 
 # Application definition
@@ -81,9 +82,7 @@ MIDDLEWARE = [
 ]
 
 
-CSRF_TRUSTED_ORIGINS = ['http://*', 'https://*']
-CSRF_COOKIE_SAMESITE = None
-CORS_ALLOW_ALL_ORIGINS = True
+
 
 ROOT_URLCONF = 'KSURL.urls'
 
@@ -192,4 +191,8 @@ LOGGING = {
 }
 
 STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'staticfiles'),  # Change this to a different directory if needed
+]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # Change this to a different directory
+
