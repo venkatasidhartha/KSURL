@@ -21,5 +21,5 @@ from django.urls import path,include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('shortner',include('url_shortner.urls'))
+    path('',include('url_shortner.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
