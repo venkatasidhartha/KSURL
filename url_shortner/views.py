@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseNotFound
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,permission_classes
+from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import redirect
 from django_redis import get_redis_connection
 
@@ -38,6 +39,7 @@ def redirect_url(request,uuid):
 
 
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
 @capture_error
 def create_url(request):
     request_data = CreateUrlRequest(request.data)
