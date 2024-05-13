@@ -13,19 +13,20 @@ class UrlService:
             url = 'https://' + url
         return url
 
-    def __mapShortUrl(self,uuid):
+    def __mapShortUrl(self,request,uuid):
         schema = "https"
         host_domain = settings.HOSTDOMAIN
-        path = uuid
+        path = request.path.split("/")[1]
+        path = path + "/" + uuid
         url = urlunparse((schema,host_domain,path,'','',''))
         return url
 
-    def create(self,url):
+    def create(self,request,url):
         uuid = str(uuid4())
         doc = Urls.objects.create(url=url,uuid=uuid)
         doc.save()
 
-        short_url = self.__mapShortUrl(doc.uuid)
+        short_url = self.__mapShortUrl(request,doc.uuid)
         response = CreateUrlResponse()
         response.set_short_url(short_url)
         return response
